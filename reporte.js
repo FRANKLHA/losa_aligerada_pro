@@ -171,3 +171,15 @@ function renderVigas() {
 
     return totalV;
 }
+function cargarResumenEscaleras() {
+    const datosEsc = JSON.parse(localStorage.getItem('escaleras_data')) || [];
+    let sumaVolumen = 0;
+
+    datosEsc.forEach(esc => {
+        sumaVolumen += esc.volEscalera;
+        // Aquí insertarías filas en la tabla de tu reporte.html
+    });
+    
+    // Actualizar el gran total de concreto del proyecto
+    document.getElementById('total-concreto-escaleras').innerText = sumaVolumen.toFixed(3);
+}

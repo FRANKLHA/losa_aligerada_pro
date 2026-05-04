@@ -1,0 +1,74 @@
+/* --- ESTILOS ESPECÍFICOS PARA EL MÓDULO DE ESCALERAS --- */
+
+/* Tarjeta contenedora de cada escalera */
+.escalera-card {
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--primary);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+/* Filas de tramos (inputs en línea) */
+.tramo-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+/* Nombre de la escalera y botón eliminar */
+.escalera-card .input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.esc-nombre {
+  font-weight: bold;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary) !important;
+  border: none;
+  border-radius: 0;
+  height: 40px;
+}
+
+/* Botones miniatura dentro del módulo */
+.btn-add-mini {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.btn-del-mini {
+  background: var(--danger);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ajuste para móviles: si la pantalla es pequeña, los inputs del tramo se apilan */
+@media (max-width: 600px) {
+  .tramo-row {
+      grid-template-columns: 1fr 1fr;
+  }
+}

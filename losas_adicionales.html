@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrados Pro - Losas Adicionales</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="losas_adicionales.css">
+</head>
+<body>
+    <header>
+        <h1>Ingeniería de Metrados: Losas Adicionales</h1>
+        <nav class="main-nav">
+            <a href="index.html">Inicio</a>
+            <a href="vigas.html">Vigas</a>
+            <a href="losas_adicionales.html" class="active">Losas Adic.</a>
+            <a href="tragaluces.html">Tragaluces</a>
+            <a href="escalera.html">Escaleras</a>
+            <a href="reporte.html">Reporte</a>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <section class="config-sector">
+            <h3>Registro de Losa Adicional</h3>
+            <input type="hidden" id="edit-id">
+
+            <div class="input-row">
+                <label>Tipo de Losa:</label>
+                <select id="tipoLosa" onchange="toggleLadrillo();">
+                    <option value="maciza">Losa Maciza (Solo Concreto)</option>
+                    <option value="aligerada">Losa Aligerada (Con Ladrillo)</option>
+                </select>
+            </div>
+
+            <div class="input-row">
+                <label>Ubicación:</label>
+                <select id="ubicacionLosa">
+                    <option value="dentro">Dentro del Sector Losa</option>
+                    <option value="fuera">Fuera del Sector (Ampliación)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="field">
+                    <label>Largo (m)</label>
+                    <input type="number" id="lLargo" step="0.01" placeholder="0.00">
+                </div>
+                <div class="field">
+                    <label>Ancho (m)</label>
+                    <input type="number" id="lAncho" step="0.01" placeholder="0.00">
+                </div>
+                <div class="field">
+                    <label>Espesor (m)</label>
+                    <input type="number" id="lEspesor" step="0.01" value="0.20">
+                </div>
+            </div>
+
+            <div id="sectionLadrillo" style="display: none;" class="ladrillo-box">
+                <h4>Parámetros de Aligerado</h4>
+                <div class="input-group">
+                    <div class="field">
+                        <label>Ladrillos por m²</label>
+                        <input type="number" id="lCantLadrillo" value="8.33">
+                    </div>
+                    <div class="field">
+                        <label>Vol. Ladrillo (m³)</label>
+                        <input type="number" id="lVolLadrillo" step="0.001" placeholder="Manual o auto">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button id="btn-save" onclick="guardarLosa()" class="btn-primary">Agregar Losa</button>
+                <button id="btn-cancel" onclick="limpiarFormulario()" class="btn-secondary" style="display:none;">Cancelar</button>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h3>Listado de Losas Adicionales</h3>
+            <table id="tablaLosas">
+                <thead>
+                    <tr>
+                        <th>Tipo/Ubicación</th>
+                        <th>Dimensiones</th>
+                        <th>Área</th>
+                        <th>Concreto</th>
+                        <th>Ladrillos</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="losas_adicionales.js"></script>
+</body>
+</html>

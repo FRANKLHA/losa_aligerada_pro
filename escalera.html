@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrados Pro - Escaleras</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="escalera.css">
+</head>
+<body>
+    <header>
+        <h1>Ingeniería de Metrados: Módulo Escaleras</h1>
+        <nav class="main-nav">
+            <a href="index.html">Inicio</a>
+            <a href="vigas.html">Vigas</a>
+            <a href="losas_adicionales.html">Losas Adic.</a>
+            <a href="tragaluces.html">Tragaluces</a>
+            <a href="escalera.html" class="active">Escaleras</a>
+            <a href="reporte.html">Reporte</a>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <section class="config-sector">
+            <h3 id="form-title">Registro de Escalera</h3>
+            <input type="hidden" id="edit-id">
+
+            <div id="escaleras-dinamicas">
+                </div>
+
+            <div class="form-actions">
+                <button id="btn-add-esc-ui" onclick="crearNuevaEscalera()" class="btn-primary" style="background: #34495e;">+ Añadir Otra Escalera</button>
+                <button id="btn-save-main" onclick="guardarTodoEnLocalStorage()" class="btn-primary">Guardar y Enviar al Reporte</button>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h3>Resumen de Escaleras Registradas</h3>
+            <table id="tablaEscaleras">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tramos</th>
+                        <th>Long. Total</th>
+                        <th>Vol. Total (m³)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="escalera.js"></script>
+</body>
+</html>
