@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrados Pro - Tragaluces</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tragaluces.css">
+</head>
+<body>
+    <header>
+        <h1>Ingeniería de Metrados: Módulo Tragaluces</h1>
+        <nav class="main-nav">
+            <a href="index.html">Inicio</a>
+            <a href="vigas.html">Vigas</a>
+            <a href="losas_adicionales.html">Losas Adic.</a>
+            <a href="tragaluces.html" class="active">Tragaluces</a>
+            <a href="escalera.html">Escaleras</a>
+            <a href="reporte.html">Reporte</a>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <section class="config-sector">
+            <h3 id="form-title">Registro de Tragaluz / Vacío</h3>
+            
+            <input type="hidden" id="edit-id"> 
+
+            <div class="input-row">
+                <label>Tipo de Vacío:</label>
+                <select id="tipoTragaluz" onchange="gestionarUI(); guardarBorrador();">
+                    <option value="normal">Tragaluz Normal (Sector)</option>
+                    <option value="escalera">Vacío de Escalera</option>
+                    <option value="patio">Patio (Exterior con Vigas)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="field">
+                    <label>Largo (m)</label>
+                    <input type="number" id="tLargo" step="0.01" placeholder="0.00" oninput="guardarBorrador()">
+                </div>
+                <div class="field">
+                    <label>Ancho (m)</label>
+                    <input type="number" id="tAncho" step="0.01" placeholder="0.00" oninput="guardarBorrador()">
+                </div>
+            </div>
+
+            <div id="opcionVigaNormal" class="checkbox-group">
+                <label>
+                    <input type="checkbox" id="tieneVigasNormal" onchange="gestionarUI(); guardarBorrador();"> 
+                    ¿Tiene vigas perimetrales?
+                </label>
+            </div>
+
+            <div id="contenedorVigas" style="display: none;" class="vigas-dinamicas">
+                <h4>Detalle de Vigas Perimetrales</h4>
+                <div class="viga-input-grid">
+                    <input type="number" id="vCant" placeholder="Cant.">
+                    <input type="number" id="vB" placeholder="b (m)">
+                    <input type="number" id="vH" placeholder="h (m)">
+                    <input type="number" id="vL" placeholder="L (m)">
+                    <button onclick="agregarVigaFila()" class="btn-mini-add">Añadir</button>
+                </div>
+                <ul id="listaVigasTemp"></ul>
+            </div>
+
+            <div class="form-actions">
+                <button id="btn-save-main" onclick="guardarTragaluzFinal()" class="btn-primary">Agregar al Metrado</button>
+                <button id="btn-cancel-edit" onclick="cancelarEdicion()" class="btn-secondary" style="display:none;">Cancelar Edición</button>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h3>Tragaluces Registrados</h3>
+            <table id="tablaTragaluces">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Dimensiones</th>
+                        <th>Área</th>
+                        <th>Detalle de Vigas (bxhxL)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="tragaluces.js"></script>
+</body>
+</html>

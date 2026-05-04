@@ -1,0 +1,97 @@
+.vigas-dinamicas {
+  background: #f0f7ff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px dashed #3498db;
+  margin: 15px 0;
+}
+
+.viga-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.viga-input-grid input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-mini-add {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 0 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#listaVigasTemp {
+  list-style: none;
+  padding: 0;
+}
+
+#listaVigasTemp li {
+  background: white;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+}
+
+.checkbox-group {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* Botones de acción en la tabla */
+.btn-edit {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 0.85rem;
+}
+
+.btn-edit:hover { background-color: #2980b9; }
+
+.btn-del {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.viga-input-grid {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.viga-input-grid input {
+  width: 20%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

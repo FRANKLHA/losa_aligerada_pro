@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metrados Pro - Sector Losa</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
         <h1>Ingeniería de Metrados: Sector Losa</h1>
@@ -22,6 +23,15 @@
 
     <main id="app-container">
         <section class="config-sector">
+            <h3>0. Datos del Proyecto</h3>
+            <div class="field-group">
+                <label>Nombre del Proyecto / Sector</label>
+                <input type="text" id="nombreProyecto" placeholder="Ej. Edificio San Jose - Sector A">
+            </div>
+            <div class="field-group">
+                <label>Fecha de Metrado</label>
+                <input type="date" id="fechaMetrado">
+            </div>
             <h3>1. Configuración del Relleno</h3>
             <div class="input-row">
                 <label>Tipo de Unidad:</label>
@@ -55,7 +65,8 @@
                 </div>
                 <div class="field-group">
                     <label>Espesor Total de Losa (m)</label>
-                    <input type="number" id="espesorLosa" step="0.01" inputmode="decimal" placeholder="0.20" value="0.20">
+                    <input type="number" id="espesorLosa" step="0.01" inputmode="decimal" placeholder="0.20"
+                        value="0.20">
                     <small>(H. Ladrillo + Capa de Compresión)</small>
                 </div>
             </div>
@@ -69,4 +80,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

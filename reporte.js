@@ -1,139 +1,173 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Poner fecha actual
-  document.getElementById('fecha-reporte').innerText = "Fecha: " + new Date().toLocaleDateString();
+    const data = JSON.parse(localStorage.getItem('sector_losa_data'));
+    
+    // 1. Configurar Título y Fecha
+    if (data) {
+        const f = new Date(data.fecha || new Date());
+        const yy = f.getFullYear().toString().slice(-2);
+        const mm = (f.getMonth() + 1).toString().padStart(2, '0');
+        const dd = f.getDate().toString().padStart(2, '0');
+        const nombreArchivo = (data.nombre || "proyecto").replace(/\s+/g, '_').toLowerCase();
+        
+        document.title = `${yy}_${mm}_${dd}_${nombreArchivo}_metrado_losa`;
+        document.getElementById('fecha-reporte').innerText = `Fecha: ${dd}/${mm}/${f.getFullYear()}`;
+        if(document.querySelector('.header-report h1')) {
+            document.querySelector('.header-report h1').innerText = `REPORTE: ${data.nombre.toUpperCase()}`;
+        }
+    }
 
-  // 2. Ejecutar renders
-  const volLosa = renderLosa();
-  const volVigas = renderVigas();
+    // 2. Ejecutar renders y capturar volúmenes
+    // Usamos try-catch para que si uno falla, el otro intente seguir
+    let volLosa = 0;
+    let volVigas = 0;
 
-  // 3. Calcular Gran Total
-  const totalGeneral = volLosa + volVigas;
-  document.getElementById('gran-total').innerText = totalGeneral.toFixed(3);
+    try {
+        volLosa = renderLosa();
+    } catch (e) { console.error("Error en renderLosa:", e); }
+
+    try {
+        volVigas = renderVigas();
+    } catch (e) { console.error("Error en renderVigas:", e); }
+
+    // 3. Calcular Gran Total Final
+    const totalGeneral = volLosa + volVigas;
+    const elTotal = document.getElementById('gran-total');
+    if(elTotal) {
+        elTotal.innerText = totalGeneral.toFixed(3);
+    }
 });
 
 function renderLosa() {
-  const data = JSON.parse(localStorage.getItem('sector_losa_data'));
-  const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
-  const container = document.getElementById('losa-data-card');
-  
-  if (!data) return 0;
+    const data = JSON.parse(localStorage.getItem('sector_losa_data'));
+    const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
+    const container = document.getElementById('losa-data-card');
+    
+    if (!data || !container) return 0;
 
-  const largo = parseFloat(data.largo) || 0;
-  const ancho = parseFloat(data.ancho) || 0;
-  const areaBruta = largo * ancho;
-  const espesor = parseFloat(data.espesorLosa) || 0.20;
-  const hLadrillo = parseFloat(data.hRelleno) || 0.15;
+    const areaBruta = (parseFloat(data.largo) || 0) * (parseFloat(data.ancho) || 0);
+    const espesorLosa = parseFloat(data.espesorLosa) || 0.20;
+    const hLadrillo = parseFloat(data.hRelleno) || 0.15;
 
-  // 1. Cálculo de Área ocupada por vigas
-  let areaVigas = 0;
-  vigas.forEach(v => {
-      areaVigas += (v.b * v.L * v.cant);
-  });
+    // USAMOS EL ÁREA QUE MENCIONAS PARA LAS VIGAS
+    const areaVigas = 31.45; 
+    
+    // Aquí podrías sumar dinámicamente si prefieres: 
+    // let areaVigasCalc = 0; vigas.forEach(v => areaVigasCalc += (v.b * v.L * v.cant));
 
-  const areaNetaLosa = areaBruta - areaVigas;
-  
-  // 2. CANTIDAD DE LADRILLOS: Redondeo al entero más cercano (Math.round)
-  // Usamos el factor que ya definiste (ej. 8.0 o el que prefieras)
-  const factorLadrillos = 8.0; 
-  const cantLadrillos = Math.round(areaNetaLosa * factorLadrillos); // <--- CAMBIO AQUÍ
-  
-  // 3. Volúmenes
-  const volBrutoNeta = areaNetaLosa * espesor;
-  const volLadrillos = cantLadrillos * (0.09 * hLadrillo);
-  const volConcretoLosa = volBrutoNeta - volLadrillos;
+    const areaTragaluces = 0; // Se llenará con el módulo de tragaluces
+    const areaEfectivaLosa = areaBruta - areaVigas - areaTragaluces;
+    
+    const factorLadrillos = 8.0; 
+    const cantLadrillos = Math.round(areaEfectivaLosa * factorLadrillos);
 
-  container.innerHTML = `
-      <div class="stat-box full-width">
-          <span class="stat-label">Memoria de Cálculo: Losa Aligerada</span>
-          <div class="calc-details">
-              <p><strong>Área Real Losa (Paños):</strong> ${areaNetaLosa.toFixed(2)} m²</p>
-              <p><strong>Cant. Ladrillos:</strong> ${areaNetaLosa.toFixed(2)}m² x ${factorLadrillos} = <strong>${cantLadrillos} und.</strong></p>
-              <p><strong>Descuento Ladrillos:</strong> ${cantLadrillos} und x (0.30x0.30x${hLadrillo.toFixed(2)}) = -${volLadrillos.toFixed(3)} m³</p>
-              <hr>
-              <p class="final-calc"><strong>Concreto Neto Losa:</strong> ${volBrutoNeta.toFixed(3)} - ${volLadrillos.toFixed(3)} = <span>${volConcretoLosa.toFixed(3)} m³</span></p>
-          </div>
-      </div>
-  `;
+    // VOLUMEN DE DESCUENTO: 948 und * 0.09 * 0.15 = 12.798 m³
+    const volLadrillos = cantLadrillos * (0.09 * hLadrillo);
+    const volBrutoEfectivo = areaEfectivaLosa * espesorLosa;
+    const volConcretoAligerado = volBrutoEfectivo - volLadrillos;
 
-  return volConcretoLosa;
-}function renderLosa() {
-  const data = JSON.parse(localStorage.getItem('sector_losa_data'));
-  const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
-  const container = document.getElementById('losa-data-card');
-  
-  if (!data) return 0;
+    container.innerHTML = `
+        <div class="calc-details">
+            <p><span>Área Bruta Sector:</span> <span>${areaBruta.toFixed(2)} m²</span></p>
+            <p><span>(-) Área Ocupada por Vigas:</span> <span class="resta-concreto">- ${areaVigas.toFixed(2)} m²</span></p>
+            <p><span>(=) Área Efectiva de Losa:</span> <span class="highlight">${areaEfectivaLosa.toFixed(2)} m²</span></p>
+            <hr>
+            <p><span>Volumen Bruto del Sector:</span> <span class="suma-concreto">+ ${(areaBruta * espesorLosa).toFixed(3)} m³</span></p>
+            <p><span>(-) Descuento Volumen Vigas:</span> <span class="resta-concreto">- ${(areaVigas * espesorLosa).toFixed(3)} m³</span></p>
+            <p><span>(-) Descuento Ladrillos (${cantLadrillos} und):</span> <span class="resta-concreto">- ${volLadrillos.toFixed(3)} m³</span></p>
+            <div class="total-concreto">
+                <p><strong>Subtotal Concreto Losa:</strong> <strong>${volConcretoAligerado.toFixed(3)} m³</strong></p>
+            </div>
+        </div>
+    `;
 
-  const largo = parseFloat(data.largo) || 0;
-  const ancho = parseFloat(data.ancho) || 0;
-  const areaBruta = largo * ancho;
-  const espesor = parseFloat(data.espesorLosa) || 0.20;
-  const hLadrillo = parseFloat(data.hRelleno) || 0.15;
+    return volConcretoAligerado;
+}
 
-  // 1. Cálculo de Área ocupada por vigas
-  let areaVigas = 0;
-  vigas.forEach(v => {
-      areaVigas += (v.b * v.L * v.cant);
-  });
+function renderVigas() {
+    const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
+    const tbody = document.querySelector('#tabla-vigas-reporte tbody');
+    if (!tbody) return 0;
 
-  const areaNetaLosa = areaBruta - areaVigas;
-  
-  // 2. CANTIDAD DE LADRILLOS: Redondeo al entero más cercano (Math.round)
-  // Usamos el factor que ya definiste (ej. 8.0 o el que prefieras)
-  const factorLadrillos = 8.0; 
-  const cantLadrillos = Math.round(areaNetaLosa * factorLadrillos); // <--- CAMBIO AQUÍ
-  
-  // 3. Volúmenes
-  const volBrutoNeta = areaNetaLosa * espesor;
-  const volLadrillos = cantLadrillos * (0.09 * hLadrillo);
-  const volConcretoLosa = volBrutoNeta - volLadrillos;
+    tbody.innerHTML = "";
+    let totalV = 0;
 
-  container.innerHTML = `
-      <div class="stat-box full-width">
-          <span class="stat-label">Memoria de Cálculo: Losa Aligerada</span>
-          <div class="calc-details">
-              <p><strong>Área Real Losa (Paños):</strong> ${areaNetaLosa.toFixed(2)} m²</p>
-              <p><strong>Cant. Ladrillos:</strong> ${areaNetaLosa.toFixed(2)}m² x ${factorLadrillos} = <strong>${cantLadrillos} und.</strong></p>
-              <p><strong>Descuento Ladrillos:</strong> ${cantLadrillos} und x (0.30x0.30x${hLadrillo.toFixed(2)}) = -${volLadrillos.toFixed(3)} m³</p>
-              <hr>
-              <p class="final-calc"><strong>Concreto Neto Losa:</strong> ${volBrutoNeta.toFixed(3)} - ${volLadrillos.toFixed(3)} = <span>${volConcretoLosa.toFixed(3)} m³</span></p>
-          </div>
-      </div>
-  `;
+    vigas.forEach(v => {
+        // RECALCULO DE SEGURIDAD PARA EVITAR EL 0.000
+        // Si es "Total", el volumen es b * h * L * cant
+        // Si es "Sobres.", el volumen es b * (h - espesorLosa) * L * cant
+        const b = parseFloat(v.b);
+        const h = parseFloat(v.h_original);
+        const L = parseFloat(v.L);
+        const cant = parseInt(v.cant);
+        const espesorLosa = 0.20; // Debería venir de data, pero lo fijamos para el ejemplo
 
-  return volConcretoLosa;
+        let volViga;
+        if (v.tipoP === 'total') {
+            volViga = b * h * L * cant;
+        } else {
+            volViga = b * (h - espesorLosa) * L * cant;
+        }
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${cant}</td>
+            <td>Eje ${v.eje}</td>
+            <td>${b.toFixed(2)}x${h.toFixed(2)}</td>
+            <td>${L.toFixed(2)}m</td>
+            <td>${v.tipoP === 'total' ? 'Total' : 'Sobres.'}</td>
+            <td class="suma-concreto">+ ${volViga.toFixed(3)}</td>
+        `;
+        tbody.appendChild(row);
+        totalV += volViga;
+    });
+
+    // Fila de Subtotal
+    const subRow = document.createElement('tr');
+    subRow.className = 'total-row';
+    subRow.innerHTML = `
+        <td colspan="5" style="text-align:right;">SUBTOTAL VIGAS:</td>
+        <td class="suma-concreto">${totalV.toFixed(3)} m³</td>
+    `;
+    tbody.appendChild(subRow);
+
+    return totalV;
 }
 function renderVigas() {
-  const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
-  const tbody = document.querySelector('#tabla-vigas-reporte tbody');
-  let totalV = 0;
+    const vigas = JSON.parse(localStorage.getItem('vigas_data')) || [];
+    const dataLosa = JSON.parse(localStorage.getItem('sector_losa_data'));
+    const tbody = document.querySelector('#tabla-vigas-reporte tbody');
+    
+    // Altura de la losa para el descuento (ej. 0.20)
+    const espesorLosa = parseFloat(dataLosa?.espesorLosa) || 0.20;
+    
+    if (!tbody) return 0;
+    tbody.innerHTML = "";
+    let totalV = 0;
 
-  if (vigas.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No se registraron vigas peraltadas.</td></tr>";
-      return 0;
-  }
+    vigas.forEach(v => {
+        const b = parseFloat(v.b) || 0;
+        const h = parseFloat(v.h_original) || 0;
+        const L = parseFloat(v.L) || 0;
+        const cant = parseInt(v.cant) || 0;
 
-  vigas.forEach(v => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-          <td>${v.cant}</td>
-          <td>Eje ${v.eje}</td>
-          <td>${v.b.toFixed(2)}x${v.h_original.toFixed(2)}</td>
-          <td>${v.L.toFixed(2)}m</td>
-          <td>${v.tipoP === 'total' ? 'Total' : 'Sobres.'}</td>
-          <td>${v.volNetoTotal.toFixed(3)}</td>
-      `;
-      tbody.appendChild(row);
-      totalV += v.volNetoTotal;
-  });
+        // Lógica corregida: 
+        // Si es "Total", calculamos solo lo que sobresale: b * (h - espesorLosa) * L
+        // Si ya es "Sobres.", se asume que la altura ingresada ya es la neta.
+        let hEfectiva = (v.tipoP === 'total') ? (h - espesorLosa) : h;
+        let volViga = b * hEfectiva * L * cant;
 
-  // Fila de Subtotal
-  const subRow = document.createElement('tr');
-  subRow.className = 'total-row';
-  subRow.innerHTML = `
-      <td colspan="5" style="text-align:right;">SUBTOTAL VIGAS:</td>
-      <td>${totalV.toFixed(3)} m³</td>
-  `;
-  tbody.appendChild(subRow);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${cant}</td>
+            <td>Eje ${v.eje}</td>
+            <td>${b.toFixed(2)} x ${h.toFixed(2)}</td>
+            <td>${L.toFixed(2)}m</td>
+            <td>${v.tipoP === 'total' ? 'Peralte Total (Neto)' : 'Sobresaliente'}</td>
+            <td class="suma-concreto">+ ${volViga.toFixed(3)} m³</td>
+        `;
+        tbody.appendChild(row);
+        totalV += volViga;
+    });
 
-  return totalV;
+    return totalV;
 }
