@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrados Pro - Sector Losa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Ingeniería de Metrados: Sector Losa</h1>
+        <nav class="main-nav">
+            <a href="index.html">Inicio</a>
+            <a href="vigas.html">Vigas</a>
+            <a href="losas_adicionales.html">Losas Adic.</a>
+            <a href="tragaluces.html">Tragaluces</a>
+            <a href="escalera.html">Escaleras</a>
+            <a href="reporte.html">Reporte</a>
+        </nav>
+    </header>
+
+    <main id="app-container">
+        <section class="config-sector">
+            <h3>1. Configuración del Relleno</h3>
+            <div class="input-row">
+                <label>Tipo de Unidad:</label>
+                <select id="tipoRelleno">
+                    <option value="ladrillo_arcilla_8">Ladrillo Arcilla (8 u/m²)</option>
+                    <option value="ladrillo_poliestireno_8">Ladrillo Poliestireno (8 u/m²)</option>
+                    <option value="caseton_poliestireno_2.5">Casetón (2.5 u/m²)</option>
+                </select>
+            </div>
+
+            <div class="input-row">
+                <label>Altura de Relleno (h):</label>
+                <select id="alturaRelleno">
+                    <option value="0.12">0.12 m</option>
+                    <option value="0.15" selected>0.15 m</option>
+                    <option value="0.20">0.20 m</option>
+                </select>
+            </div>
+
+            <h3>2. Dimensiones del Sector</h3>
+            <div class="input-group">
+                <div class="field">
+                    <label>Largo (m)</label>
+                    <input type="number" id="largo" step="0.01" placeholder="0.00" inputmode="decimal">
+                    <span class="unit-mask">m</span>
+                </div>
+                <div class="field">
+                    <label>Ancho (m)</label>
+                    <input type="number" id="ancho" step="0.01" placeholder="0.00" inputmode="decimal">
+                    <span class="unit-mask">m</span>
+                </div>
+                <div class="field-group">
+                    <label>Espesor Total de Losa (m)</label>
+                    <input type="number" id="espesorLosa" step="0.01" inputmode="decimal" placeholder="0.20" value="0.20">
+                    <small>(H. Ladrillo + Capa de Compresión)</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="actions">
+            <button onclick="irAReporte()" class="btn-reporte">Generar Reporte (.pdf)</button>
+            <button onclick="prepararIA()" class="btn-ia">Obtener Texto para IA Gemini</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

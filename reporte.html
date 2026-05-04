@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Técnico de Metrados</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="reporte.css">
+</head>
+<body>
+
+    <div class="no-print-zone">
+        <header>
+            <h1>Ingeniería de Metrados: Sector Losa</h1>
+            <nav class="main-nav">
+                <a href="index.html">Inicio</a>
+                <a href="vigas.html">Vigas</a>
+                <a href="losas_adicionales.html">Losas Adic.</a>
+                <a href="tragaluces.html">Tragaluces</a>
+                <a href="escalera.html">Escaleras</a>
+                <a href="reporte.html" class="active">Reporte</a>
+            </nav>
+        </header>
+        
+        <div class="action-bar" style="background: #fff; padding: 15px; display: flex; justify-content: center; border-bottom: 1px solid #ddd;">
+            <button class="btn-main" onclick="window.print()" style="max-width: 250px; background: var(--primary);">
+                🖨️ Generar PDF / Imprimir
+            </button>
+        </div>
+    </div>
+
+    <div class="paper-page">
+        <header class="header-report">
+            <h1>REPORTE DE METRADO DE CONCRETO</h1>
+            <div class="meta-info">
+                <span>Proyecto: Control de Sector de Losa</span>
+                <span id="fecha-reporte"></span>
+            </div>
+        </header>
+
+        <section id="section-losa">
+            <h2>1. Detalle del Sector (Losa Aligerada)</h2>
+            <div class="card-report" id="losa-data-card">
+                </div>
+        </section>
+
+        <section id="section-vigas">
+            <h2>2. Detalle de Vigas Peraltadas</h2>
+            <div class="table-responsive">
+                <table id="tabla-vigas-reporte">
+                    <thead>
+                        <tr>
+                            <th>Cant.</th>
+                            <th>Eje</th>
+                            <th>Sección (bxh)</th>
+                            <th>Longitud</th>
+                            <th>Tipo</th>
+                            <th>Subtotal (m³)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="summary-footer">
+            <div class="total-label">VOLUMEN TOTAL NETO DE CONCRETO</div>
+            <div class="total-final"><span id="gran-total">0.000</span> m³</div>
+            <small>Cálculo basado en dimensiones netas estructurales</small>
+        </div>
+    </div>
+
+    <script src="reporte.js"></script>
+</body>
+</html>

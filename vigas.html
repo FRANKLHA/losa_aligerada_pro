@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Metrados - Vigas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Ingeniería de Metrados: Sector Losa</h1>
+        <nav class="main-nav">
+            <a href="index.html">Inicio</a>
+            <a href="vigas.html" class="active">Vigas</a>
+            <a href="losas_adicionales.html">Losas Adic.</a>
+            <a href="tragaluces.html">Tragaluces</a>
+            <a href="escalera.html">Escaleras</a>
+            <a href="reporte.html">Reporte</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2 style="margin:0; font-size: 1.2rem;">Vigas Peraltadas</h2>
+            <button id="add-viga" class="btn" style="background: var(--accent); color: white; padding: 8px 15px;">+ Añadir</button>
+        </div>
+
+        <div id="lista-vigas">
+            </div>
+    </main>
+
+    <footer class="footer-actions">
+        <button onclick="guardarVigas()" class="btn-main">Guardar Datos de Vigas</button>
+    </footer>
+
+    <script src="vigas.js"></script>
+</body>
+</html>

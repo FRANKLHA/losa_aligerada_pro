@@ -1,0 +1,129 @@
+/* Estilos para visualización en pantalla y papel */
+.paper-page {
+  background: white;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-report {
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.card-report {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.stat-box {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+th { background: #eee; }
+
+.total-row {
+  background: #e8f6f3;
+  font-weight: bold;
+}
+
+.summary-footer {
+  margin-top: 40px;
+  border: 2px solid var(--primary);
+  padding: 20px;
+  text-align: right;
+}
+
+.total-label { font-size: 0.8rem; font-weight: bold; }
+.total-final { font-size: 2rem; color: var(--primary); font-weight: bold; }
+
+/* Ocultar elementos en la impresión PDF */
+@media print {
+  body { background: white; padding: 0; }
+  .no-print-zone { display: none; }
+  .paper-page { width: 100%; max-width: none; margin: 0; padding: 0; }
+  .card-report { border: 1px solid #000; }
+}
+
+.action-bar {
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+}
+
+.full-width {
+  grid-column: 1 / -1; /* Ocupa todo el ancho de la tarjeta */
+}
+
+.calc-details {
+  background: #fff;
+  padding: 15px;
+  border-left: 4px solid var(--accent);
+  margin-top: 10px;
+  font-family: 'Courier New', monospace; /* Fuente tipo máquina de escribir para mayor realismo técnico */
+}
+
+.calc-details p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.final-calc {
+  font-size: 1.1rem !important;
+  color: var(--primary) !important;
+}
+
+.final-calc span {
+  background: #f1c40f;
+  padding: 2px 5px;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  border-top: 1px dashed #ccc;
+  margin: 10px 0;
+}
+
+.highlight {
+  color: var(--accent);
+  font-weight: bold;
+  background: #fff3e0;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
